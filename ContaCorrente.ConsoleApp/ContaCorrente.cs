@@ -24,21 +24,22 @@ class ContaCorrente
         Console.Write("Digite o valor que deseja sacar (R$): ");
         decimal valorSaque = Convert.ToDecimal(Console.ReadLine());
 
-        if (saldo <= -limiteDebito)
+        if (valorSaque > saldo + limiteDebito)
         {
             Console.WriteLine("-------------------------------------");
-            Console.WriteLine("O valor do limite de débito já foi ultrapassado!");
-            Console.ReadLine();
+            Console.WriteLine("O valor do limite de débito foi ultrapassado!");
         }
         else
         {
             saldo -= valorSaque;
             Console.WriteLine("-------------------------------------");
             Console.WriteLine("O valor foi sacado com sucesso!");
-            Console.WriteLine("-------------------------------------");
-            Console.Write("Digite ENTER para continuar...");
-            Console.ReadLine();
+
         }
+
+        Console.WriteLine("-------------------------------------");
+        Console.Write("Digite ENTER para continuar...");
+        Console.ReadLine();
     }
 
     public void Depositar()
