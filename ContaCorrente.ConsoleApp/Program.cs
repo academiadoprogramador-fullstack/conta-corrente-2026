@@ -9,58 +9,57 @@
     Saque: Permite a retirada de valores, respeitando o limite máximo permitido.
     Depósito: Possibilita a adição de fundos à conta.
     Consulta de saldo: Fornece informações atualizadas sobre o montante disponível.
+    Transferência entre contas: Permite a movimentação de valores entre contas correntes distintas.
 */
 using System.Security.Cryptography;
 
-// Conta Corrente
-int numeroIdentificacao = RandomNumberGenerator.GetInt32(1, 101);
-string titular = "Tiago";
-decimal saldo = 1000;
-decimal limiteDebito = 1200;
-
-while (true)
+class Program
 {
-    Console.Clear();
-    Console.WriteLine("---------------------------------------------");
-    Console.WriteLine($"Conta Corrente #{numeroIdentificacao} de {titular}");
-    Console.WriteLine("---------------------------------------------");
-    Console.WriteLine("1 - Saque");
-    Console.WriteLine("2 - Depósito");
-    Console.WriteLine("3 - Consulta de Saldo");
-    Console.WriteLine("S - Sair");
-    string? opcaoMenu = Console.ReadLine()?.ToUpper();
-
-    if (opcaoMenu == "S")
-        break;
-
-    if (opcaoMenu == "1")
+    static void Main(string[] args)
     {
-        Console.Write("Digite o valor que deseja sacar (R$): ");
-        decimal valorSaque = Convert.ToDecimal(Console.ReadLine());
+        // Conta Corrente 1
+        ContaCorrente contaUm = new ContaCorrente();
+        contaUm.numeroIdentificacao = 1;
+        contaUm.titular = "Tiago";
 
-        if (saldo <= -limiteDebito)
+        // Conta Corrente 2
+        ContaCorrente contaDois = new ContaCorrente();
+        contaDois.numeroIdentificacao = 2;
+        contaDois.titular = "Rech";
+        contaDois.saldo = 12000;
+
+        while (true)
         {
-            Console.WriteLine("O valor do limite de débito já foi ultrapassado!");
-            Console.ReadLine();
-        }
-        else
-        {
-            saldo -= valorSaque;
+            // Console.Clear();
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine($"Conta Corrente #{contaUm.numeroIdentificacao} de {contaUm.titular}");
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("1 - Saque");
+            Console.WriteLine("2 - Depósito");
+            Console.WriteLine("3 - Transferência");
+            Console.WriteLine("4 - Consulta de Saldo");
+            Console.WriteLine("S - Sair");
+            string? opcaoMenu = Console.ReadLine()?.ToUpper();
 
-            Console.WriteLine("O valor foi sacado com sucesso!");
-            Console.ReadLine();
-        }
-    }
-    else if (opcaoMenu == "2")
-    {
-        Console.Write("Digite o valor que deseja depositar (R$): ");
-        decimal valorDeposito = Convert.ToDecimal(Console.ReadLine());
+            if (opcaoMenu == "S")
+                break;
 
-        saldo += valorDeposito;
-    }
-    else if (opcaoMenu == "3")
-    {
-        Console.WriteLine("O valor do saldo da conta é de (R$): " + saldo);
-        Console.ReadLine();
+            if (opcaoMenu == "1")
+            {
+                contaUm.Sacar();
+            }
+            else if (opcaoMenu == "2")
+            {
+                contaUm.Depositar();
+            }
+            else if (opcaoMenu == "3")
+            {
+                contaUm.TransferirPara(contaDois); // passa o endereço da variável
+            }
+            else if (opcaoMenu == "4")
+            {
+                contaUm.ObterSaldo();
+            }
+        }
     }
 }
